@@ -4,13 +4,15 @@ class Employee
 {
     private $first_name;
     private $last_name;
+    private $nickName;
     private $age;
     private const ff= 12  ;
 
-    public function __construct($first_name, $last_name, $age)
+    public function __construct($first_name, $last_name, $nickName ,  $age)
     {
         $this->first_name = $first_name;
         $this->last_name = $last_name;
+        $this->nickName = $nickName;
         $this->age = $age;
     }
 
@@ -30,13 +32,16 @@ class Employee
         return $this->last_name;
     }
 
+    public function getnickName(){
+        return $this->nickName;
+    }
     public function getAge()
     {
         return $this->age;
     }
 }
 
-$objEmployee = new Employee('Bob', 'Smith', 30);
+$objEmployee = new Employee('Bob', 'Smith', 'Bobiko',30);
 if($objEmployee->getAge() < 18){
     echo"Du bist minderjährig </br>";
 }
@@ -45,7 +50,11 @@ else{
 }
 
 echo $objEmployee->getFirstName(); // print 'Bob'
+echo " ";
 echo $objEmployee->getLastName(); // prints 'Smith'
+echo " ";
+echo $objEmployee->getnickName();
+echo " ";
 echo $objEmployee->getAge(); // prints '30'
 echo $objEmployee->setff(5) . "</br>";
 echo $objEmployee->getff();
@@ -70,7 +79,7 @@ $person = new Person();
 $person->setName('set');
 echo $person->getName();
 
-$person->setName('Hamodi');
+$person->setName(' Hamodi');
 $ausgabe = $person->getName();
 
 echo <<<EOT
@@ -104,7 +113,9 @@ class BoldMessage extends Message
 $message = new Message();
 $message->formatMessage('Hello World'); // prints '<i>Hello World</i>'
 
-//$message = new BoldMessage();
+echo '</br>';
+
+$message = new BoldMessage();
 $message->formatMessage('Hello World'); // prints '<b>Hello World</b>'
 
 
@@ -157,7 +168,7 @@ echo <<<Eot
     
     <h2>Neue Ausgabe</h2>
     <article>
-    <form method="POST" name ="Date" action="Klassen.php"> 
+    <form method="POST" name ="Date" action="KlassenMitArray.php"> 
           <input type="text" name = "Namee" value="" placeholder="Gib dein Name ein "/>
            <input type="number" name = "Alterr" value="" placeholder="Gib dein ALter ein "/>
           <input type="submit" value="senden"/>
@@ -180,20 +191,60 @@ if(isset($_POST['Namee']) && isset($_POST['Alterr'])) {
     $neueName = $_POST['Namee'];
     $neueAlter = $_POST['Alterr'];
 
-    //echo var_dump($_POST);
-
+    echo var_dump($_POST);
+    echo "</br>Neuer Datensatz: ";
     echo $neueName . " ";
     echo $neueAlter;
     echo "</br>";
-    //array_push($Date, "$neueName", );
-    //$Date[] = $neueAusgabe;
 
 
+//Für zweistellige Eingabe
+    if(strlen($neueAlter) > 1 and strlen($neueAlter) < 3 )
+    {
+    $AlterAbchecken = Date("Y") - $neueAlter;
+    if ($AlterAbchecken > 2002) {
+        echo "du bist miderjährig";
+    } else {
+        echo "du bist volljährig";
+    }
+    }
+
+    //Für vierstellige Eingabe
+if(strlen($neueAlter) > 2 and strlen($neueAlter) < 5 ){
+    $AlterAbchecken = Date("Y") - $neueAlter;
+    if($AlterAbchecken > 17){
+        echo "du bist volljährig ";
+    }
+    else{
+        echo "du bist miderjährig";
+    }
+
+}
+if($neueAlter < 0){
+    echo "du bist noch nicht geboren. No Existenz";
+}
+
+
+
+
+    echo "</br>";
+if(strlen($neueAlter) > 3) {
+    $zweistelligAlter= Date("Y") - $neueAlter;
+    $Date2 = ["firstname" => $neueName,
+        "age" => $zweistelligAlter];
+    array_push($Date, $Date2); //hier wird die neue Array in die alte hinzugefügt
+
+}else if($neueAlter < 0 ) {
+    $noExistenz = "X-ERROR-X";
+    $Date2 =["firstname" => $neueName,
+        "age" => $noExistenz];
+    array_push($Date, $Date2); //hier wird die neue Array in die alte hinzugefügt
+}
+else{
     $Date2 =["firstname" => $neueName,
         "age" => $neueAlter];
-
-
-    array_push($Date, $Date2); //hier fuegst du die neue Array in die alte
+    array_push($Date, $Date2); //hier wird die neue Array in die alte hinzugefügt
+}
 
     echo '<ul>';
     foreach ($Date as $item) {
@@ -208,26 +259,10 @@ EOT;
         echo "</br>";
     }
 
-
     echo '</ul>';
 
 
 }
 
 
-
-/*
-
-if(isset($_POST['Namee']) && isset($_POST['Alterr']))
-{
-    $auswahl = (isset($_POST['Namee']) ? $_POST['Namee']: null);
-    $auswahl2 = (isset($_POST['Alterr']) ? $_POST['Alterr']: null);
-
-    print($auswahl. "</br>");
-    print($auswahl2. "</br>");
-}
-else {
-    echo "Es wurde weder irgendeine Pizza ausgewählt noch irgendeine Adresse eingegeben";
-}
-*/
 ?>

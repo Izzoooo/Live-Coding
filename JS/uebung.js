@@ -6,8 +6,6 @@ window.addEventListener('load', (event)=>{
 
 
 
-
-
 function myFunction() {
     var input = document.getElementById('input');
     var output = document.getElementById('output');

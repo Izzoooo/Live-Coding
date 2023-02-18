@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Test</title>
+  <script type="text/javascript">
+
+    document.ondblclick=function()
+    {
+      txt=String((window.getSelection)?window.getSelection():document.selection.createRange().text);
+
+      if(txt.match(/[\S]{3,}/))machwas(txt);
+      //Character classes =
+      // \S:
+     //Findet ein einzelnes Zeichen außer Leerzeichen. Äquivalent zu . Entspricht beispielsweise "foo" in "foo bar".
+      // For example, /\S\w*/ matches "foo" in "foo bar".
+      // Equivalent to [^ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff].
+
+    }
+    function machwas(s)
+    {
+      window.open('http://www.google.de/search?q='+escape(s));
+    }
+
+  </script>
+</head>
+<body>
+Ein paar Wörter zum doppelt Anklicken
+</body>
+</html>
